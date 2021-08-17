@@ -1,0 +1,7 @@
+{
+    "recommendations" : [
+        "dbaeumer.vscode-esLint",
+        "aaron-bond.better-comments",
+        "wraith13.zoombar-vscode"
+    ]
+}
