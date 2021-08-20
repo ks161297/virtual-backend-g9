@@ -97,3 +97,31 @@ print(persona)
 #Imprimir el primer hobby de la persona 
 
 print(persona['hobbies'][0]['nombre'])
+
+#forma de extraer solamente llaves 
+
+print(persona.keys())
+
+#forma de extraer solamente los valores
+
+print(persona.values())
+
+persona.clear()
+print(persona)
+
+
+
+##CONJUNTOS 
+# Colección de datos DESORDENADA, que una vez que la creamos no podremos acceder a sus posiciones ya que estará ordenada aleatoriamente.
+
+alumnos = {'Kevin', 'Kat', 'Kimberly', 'Jose','Ramiro', 'Sara'}
+print(alumnos)
+alumnos.add('Diego')
+print(alumnos)
+alumnos.remove('Jose')
+print(alumnos)
+
+
+# Se usa para guardar valores sin la necesidad de llaves 
+cursos = {'matematica', 'cta', 'biologia','comunicacion'}
+print('matematicas' in cursos)

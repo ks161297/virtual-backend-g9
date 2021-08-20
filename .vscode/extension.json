@@ -1,7 +1,13 @@
 {
-    "recommendations" : [
-        "dbaeumer.vscode-esLint",
+	"recommendations": [
+		"dbaeumer.vscode-eslint",
         "aaron-bond.better-comments",
-        "wraith13.zoombar-vscode"
-    ]
+        "wraith13.zoombar-vscode",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ritwickdey.liveserver",
+        "usernamehw.errorlens",
+        "coenraads.bracket-pair-colorizer-2",
+        "pkief.material-icon-theme"
+	]
 }
