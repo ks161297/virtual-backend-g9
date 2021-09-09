@@ -13,7 +13,7 @@
   "host": "reposteria-ms.herokuapp.com",
   "basePath": "/",
   "schemes": [
-    "http, https"
+    "http","https"
   ],
   "consumes": [
     "application/json"
