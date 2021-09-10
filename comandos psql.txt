@@ -1,0 +1,3 @@
+\l => Lista las bases de datos
+\c nombre_bd => conectarse o usar bd 
+\d => tablas bd
