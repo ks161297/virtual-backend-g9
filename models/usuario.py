@@ -1,8 +1,5 @@
-from sqlalchemy.sql import base
-from sqlalchemy.sql.operators import ColumnOperators
-from sqlalchemy.sql.sqltypes import Integer
 from config.conexion_bd import base_de_datos
-from sqlalchemy import Column, types
+from sqlalchemy import Column, types, orm
 
 
 class UsuarioModel(base_de_datos.Model):
@@ -19,3 +16,5 @@ class UsuarioModel(base_de_datos.Model):
     usuarioPassword = Column(name='password', type_=types.Text, nullable=False)
 
     usuarioTelefono = Column(name='telefono', type_=types.String(15), nullable=True)
+
+    tareas = orm.relationship('TareaModel', backref='tareaUsuario')

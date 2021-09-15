@@ -1,11 +1,7 @@
 from datetime import datetime
-import sqlalchemy
-from sqlalchemy.sql import base
 from sqlalchemy.sql.schema import ForeignKey
-from sqlalchemy.sql.traversals import ColIdentityComparatorStrategy
 from config.conexion_bd import base_de_datos
 from sqlalchemy import Column, types
-from datetime import datetime
 from enum import Enum
 
 class EstadoEnum(Enum):
