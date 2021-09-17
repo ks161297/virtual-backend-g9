@@ -1,19 +1,18 @@
-from flask_restful import Resource, reqparse, request
-from models.usuario import UsuarioModel
+from flask_restful import Resource, reqparse
+#, request
+from models.Usuario import UsuarioModel
 from config.conexion_bd import base_de_datos
 from bcrypt import hashpw, gensalt, checkpw
 from re import search
 from flask_jwt import jwt_required, current_identity
 from sqlalchemy.exc import IntegrityError
-from cryptography.fernet import Fernet
-from os import environ
-from datetime import datetime, timedelta
-from json import dumps
-from config.enviar_correo import enviarCorreo
+# from cryptography.fernet import Fernet
+# from os import environ
+# from datetime import datetime, timedelta
+# from json import dumps
+#from config.enviar_correo import enviarCorreo
+from utils.patrones import PATRON_CORREO, PATRON_PASSWORD
 
-
-PATRON_CORREO = r'\w+[@]\w+[.]\w{2,3}'
-PATRON_PASSWORD = r'(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#&?])[A-Za-z\d@$!%*#&?]{6,}'
 
 class RegistroController(Resource):
     serializador = reqparse.RequestParser(bundle_errors=True)
@@ -69,7 +68,7 @@ class RegistroController(Resource):
             },400
         if search(PATRON_PASSWORD, password) is None:
             return { 
-                "message" : "Password incorrecto, mínimo 6 caracteres, una mayúscula, una minúscula y un símbolo especial "
+                "message" : "Password incorrecto, mínimo 6 caracteres, una mayúscula, una minúscula y un símbolo especial :("
             }, 400
         try:
             nuevoUsuario = UsuarioModel()
@@ -90,12 +89,12 @@ class RegistroController(Resource):
             base_de_datos.session.add(nuevoUsuario)
             base_de_datos.session.commit()
             return {
-                "message" : "Usuario creado exitosamente"
+                "message" : "Usuario creado exitosamente :)"
              }, 201
         except Exception as e:
             base_de_datos.session.rollback()
             return {
-                "message" : "Error al ingresar el usuario",
+                "message" : "Error al ingresar el usuario :(",
                 "content" : e.args
              }, 500
 
@@ -103,38 +102,40 @@ class LoginController(Resource):
     serializador = reqparse.RequestParser(bundle_errors=True)
     serializador.add_argument(
         'correo',
-        type = str,
-        required = True,
-        location = 'json',
-        help = 'Falta el correo'
+        type=str,
+        required=True,
+        location='json',
+        help='Falta el correo'
     )
     serializador.add_argument(
         'password',
-        type = str,
-        required = True,
-        location = 'json',
-        help = 'Falta el password'
+        type=str,
+        required=True,
+        location='json',
+        help='Falta la password'
     )
 
     def post(self):
+        # si el usuario existe en la bd indicarlo sino en un mensaje indicar que no existe y un estado 404
         data = self.serializador.parse_args()
-        usuario = base_de_datos.session.query(UsuarioModel).filter(UsuarioModel.usuarioCorreo == data.get('correo')).first()
-
+        usuario = base_de_datos.session.query(UsuarioModel).filter(
+            UsuarioModel.usuarioCorreo == data.get('correo')).first()
         if usuario is None:
             return {
-                "message" : "Usuario no encontrado"
+                "message": "Usuario no encontrado"
             }, 404
         password = bytes(data.get('password'), 'utf-8')
         usuarioPwd = bytes(usuario.usuarioPassword, 'utf-8')
         resultado = checkpw(password, usuarioPwd)
         if resultado:
-            return { 
-                "message" : "Usuario encontrado"
+            return{
+                "message": "Usuario encontrado"
             }
         else:
             return {
-                "message" : "Usuario no encontrado"
+                "message": "Usuario no encontrado"
             }, 400
+
 
 class UsuarioController(Resource):
     
@@ -235,51 +236,51 @@ class UsuarioController(Resource):
             }, 400
 
 
-class ResetearPasswordController(Resource):
-    serializador = reqparse.RequestParser()
-    serializador.add_argument(
-        'correo',
-        type=str,
-        required=True,
-        location='json',
-        help='Falta el correo'
-    )
+# class ResetearPasswordController(Resource):
+#     serializador = reqparse.RequestParser()
+#     serializador.add_argument(
+#         'correo',
+#         type=str,
+#         required=True,
+#         location='json',
+#         help='Falta el correo'
+#     )
 
-    def post(self):
-        data = self.serializador.parse_args()
-        correo = data.get('correo')
-        if search(PATRON_CORREO, correo) is None:
-            return {
-                "message": "Formato de correo incorrecto"
-            }, 400
-        usuario = base_de_datos.session.query(UsuarioModel).filter(
-            UsuarioModel.usuarioCorreo == correo).first()
-        # if usuario is None:
-        if not usuario:
-            return {
-                "message": "Usuario no encontrado"
-            }, 404
-        fernet = Fernet(environ.get('FERNET_SECRET'))
-        mensaje = {
-            "fecha_caducidad": str(datetime.utcnow()+timedelta(minutes=30)),
-            "correo": correo
-        }
-        mensaje_json = dumps(mensaje)
-        mensaje_encriptado = fernet.encrypt(
-            bytes(mensaje_json, 'utf-8')).decode('utf-8')
-        # print(mensaje_encriptado)
-        # mensaje_desencriptado = fernet.decrypt(
-        #     bytes(mensaje_encriptado, 'utf-8'))
-        # print(mensaje_desencriptado)
-        link = request.host_url+"change-password?token={}".format(
-            mensaje_encriptado)
+#     def post(self):
+#         data = self.serializador.parse_args()
+#         correo = data.get('correo')
+#         if search(PATRON_CORREO, correo) is None:
+#             return {
+#                 "message": "Formato de correo incorrecto"
+#             }, 400
+#         usuario = base_de_datos.session.query(UsuarioModel).filter(
+#             UsuarioModel.usuarioCorreo == correo).first()
+#         # if usuario is None:
+#         if not usuario:
+#             return {
+#                 "message": "Usuario no encontrado"
+#             }, 404
+#         fernet = Fernet(environ.get('FERNET_SECRET'))
+#         mensaje = {
+#             "fecha_caducidad": str(datetime.utcnow()+timedelta(minutes=30)),
+#             "correo": correo
+#         }
+#         mensaje_json = dumps(mensaje)
+#         mensaje_encriptado = fernet.encrypt(
+#             bytes(mensaje_json, 'utf-8')).decode('utf-8')
+#         # print(mensaje_encriptado)
+#         # mensaje_desencriptado = fernet.decrypt(
+#         #     bytes(mensaje_encriptado, 'utf-8'))
+#         # print(mensaje_desencriptado)
+#         link = request.host_url+"change-password?token={}".format(
+#             mensaje_encriptado)
 
-        enviarCorreo(correo, """Hola, {}
-        Has solicitado el reinicio de tu contraseña, haz click en el siguiente enlace para efectuarla:
-            <br>
-            <a href="{}" ><button style="background-color:peru; color:white; border:none; ">Cambiar</button></a>
-        """.format(usuario.usuarioNombre, link))
+#         enviarCorreo(correo, """Hola, {}
+#         Has solicitado el reinicio de tu contraseña, haz click en el siguiente enlace para efectuarla:
+#             <br>
+#             <a href="{}" ><button style="background-color:peru; color:white; border:none; ">Cambiar</button></a>
+#         """.format(usuario.usuarioNombre, link))
 
-        return {
-            "message": "Se envio un correo con el cambio de password"
-        }
+#         return {
+#             "message": "Se envio un correo con el cambio de password"
+#         }

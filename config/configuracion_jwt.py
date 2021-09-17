@@ -6,10 +6,10 @@ def manejo_error_JWT(error: JWTError):
     print(error.headers)
     print(error.error)
     message = ""
-    if error.error == 'Invalid token':
-        message = "Token inválida"
+    if error.error == 'Invalid token :(':
+        message = "Token inválida :)"
     elif error.error == 'Autorization Required':
-        message = "Necesitas una token para esta petición"
+        message = "Necesitas una token para esta petición !!"
     elif error.error == 'Invalid JWT header':
         message = "Token sin el prefijo correcto"
     else: 

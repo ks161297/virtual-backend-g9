@@ -2,6 +2,7 @@ from datetime import datetime
 from sqlalchemy.sql.schema import ForeignKey
 from config.conexion_bd import base_de_datos
 from sqlalchemy import Column, types
+# from sqlalchemy.dialects.postgresql import ARRAY  => Así se importa datos PROPIOS de un motor de BD 
 from enum import Enum
 
 class EstadoEnum(Enum):
@@ -18,6 +19,7 @@ class TareaModel(base_de_datos.Model):
     tareaFechaCreacion = Column(name='created_at', type_=types.DateTime, default=datetime.now)
     tareaTags = Column(name = 'tags', type_=types.ARRAY(types.TEXT))
     tareaEstado = Column(name='estado', type_=types.Enum(EstadoEnum),nullable=False)
+    tareaImagen = Column(name='imagen', type_=types.Text)
     
 
     #RELACIONES

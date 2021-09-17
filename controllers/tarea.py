@@ -1,8 +1,10 @@
-from sqlalchemy.sql import base
+# from sqlalchemy.sql import base
+from models.Tarea import TareaModel
 from config.conexion_bd import base_de_datos
-from models.tarea import TareaModel
+# from models.tarea import TareaModel
 from flask_restful import Resource, reqparse
 from flask_jwt import current_identity, jwt_required
+from cloudinary import CloudinaryImage
 
 
 class TareasController(Resource): 
@@ -89,3 +91,21 @@ class TareasController(Resource):
             "content" :resultado
         }
         
+    @jwt_required()
+    def get(self):
+        tareasEncontradas = base_de_datos.session.query(TareaModel).filter(TareaModel.usuario == current_identity.get('usuarioId')).all() 
+        resultado = []
+        for tarea in tareasEncontradas:
+            tareaDict = tarea.__dict__.copy()
+            del tareaDict['_sa_instance_state']
+            tareaDict['tareaFechaCreacion'] = str(
+                tareaDict['tareaFechaCreacion']
+            )
+            respuestaCD = CloudinaryImage(tarea.tareaImagen).image(transformation=[
+                {'background': "#ce6767", 'border': "17px_solid_rgb:000", 'height': 310, 'quality': 46, 'radius': 14, 'width': 634, 'zoom': "1.8", 'crop': "scale"},
+                {'angle': 185}
+            ])
+            print(respuestaCD)
+            tareaDict['tareaEstado'] = tareaDict['tareaEstado'].value
+            tareaDict['tareaImagen'] = tareaDict['tareaImagen'].value
+            
