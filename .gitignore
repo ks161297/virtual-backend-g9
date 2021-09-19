@@ -1,3 +1,7 @@
 entorno_flask/
 __pycache__/
 .env    
+
+media/*
+
+!media/not_found.png
