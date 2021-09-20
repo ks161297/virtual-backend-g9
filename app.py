@@ -206,7 +206,7 @@ def subir_imagen_cd():
     resultado = upload(imagen)
     return {
         "message": "Archivo subido exitosamente",
-        "content": resultado
+        "content": resultado['public_id']
     }
 
 

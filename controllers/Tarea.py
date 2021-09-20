@@ -35,6 +35,13 @@ class TareasController(Resource):
         help='Falta el estado',
         type=str
     )
+    serializador.add_argument(
+        'imagen',
+        location='json',
+        required=False,
+        help='Falta el estado',
+        type=str
+    )
 
     @jwt_required()
     def post(self):
@@ -45,6 +52,7 @@ class TareasController(Resource):
             nuevaTarea.tareaDescripcion = data.get('descripcion')
             nuevaTarea.tareaTags = data.get('tags')
             nuevaTarea.tareaEstado = data.get('estado')
+            nuevaTarea.tareaImagen = data.get('imagen')
             nuevaTarea.usuario = current_identity.get('usuarioId')
 
             base_de_datos.session.add(nuevaTarea)
@@ -59,6 +67,7 @@ class TareasController(Resource):
                     "tareaTags": nuevaTarea.tareaTags,
                     "tareaTitulo": nuevaTarea.tareaTitulo,
                     "tareaFechaCreacion":str(nuevaTarea.tareaFechaCreacion),
+                    "tareaImagen":str(nuevaTarea.tareaImagen),
                     "usuario": nuevaTarea.usuario
                 }
             }, 201

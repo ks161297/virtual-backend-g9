@@ -260,12 +260,33 @@ class ResetearPasswordController(Resource):
         link = request.host_url+"change-password?token={}".format(
             mensaje_encriptado)
 
-        enviarCorreo(correo, """Hola, {}
-        Has solicitado el reinicio de tu contraseña, haz click en el siguiente enlace para efectuarla:
-            <br>
-            <a href="{}" ><button style="background-color:peru; color:white; border:none; ">Cambiar</button></a>
-        """.format(usuario.usuarioNombre, link))
+        enviarCorreo(correo, """
+           
+                    <body style="align-items:center; background-color:transparent; text-align:center" >
+	                    <div  style="justify-content:center; align-items:center; background-color:transparent; text-align:center">
+                            <div style=" justify-content:center; background-color:#3092b6; width:60%;align-items:center;text-align:center">
+                                <img src="https://cdn-icons-png.flaticon.com/512/5559/5559694.png" style="align-items:center;height:100px; width: 100px;margin-top:10px; margin-bottom:10px">
+		                    </div>
+    		                <div class=" text-center" style="color:#000; width:60%; font-family:Helvetica,Arial;margin-top: 20px; font-size:16px;line-height:24px;text-align:left; width:60%">
+			                    <h2 style="font-family:Helvetica,Arial;font-weight:500;font-size:20px;color:#000;letter-spacing:0.27px; text-align:left">Hola ;),  {} </h2>
+			                    <h2 style="font-family:Helvetica,Arial;font-weight:500;font-size:20px;color:#000;letter-spacing:0.27px; text-align:center">¿Quieres cambiar tu contraseña?</h2>
+			                    <h4 style="text-align:center">¡Hubo una solicitud para cambiar su contraseña!</p>
+			                    <h4 style="text-align:center">Para
+			                    <span class="il" style="background-color:#3092b6">MS-TAREAS</span></p>
+				                <h4 style="text-align:center">Si no realizó esta solicitud, simplemente ignore este correo electrónico.</p>
+			                    <h4 style="text-align:center"> De lo contrario, haga clic en el botón de abajo para cambiar su contraseña:</p>
+		                        <div style=" justify-content:center; text-align:center;align-items:center;background-color: transparent;">
+			                        <a href="{}"><button  style="justify-content:center;text-align:center;align-items:center;margin-top:10px; background: #3092b6;border-radius:8px; border-color:transparent; color:white">¡Cambia tu contraseña!</button></a>
+		                        </div>	
+   	                        </div>
+  	                    </div>
+	                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+                    </body>
+          
+            """.format(usuario.usuarioNombre, link))
 
         return {
             "message": "Se envio un correo con el cambio de password"
         }
+
+        
