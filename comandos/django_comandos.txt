@@ -1,0 +1,2 @@
+django-admin --version ==> Version django 
+django-admin startproject --help ==> Para saber que sigue 

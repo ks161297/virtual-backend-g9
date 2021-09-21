@@ -2,4 +2,3 @@ which --version  ==> Versión
 which virtualenv ==> Ubicación
 virtualenv nombreapp  ==> creacion de un entorno virtual
 virtualenv --version ==> versión del entorno virtual
-django-admin --version ==> Version django 
