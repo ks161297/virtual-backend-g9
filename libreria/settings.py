@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-t67m0^8&__%l+nnwlj8x&-#osqpj03&b)=_0-(o&$gxnq4y@(&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['libreria-djando-kim.herokuapp.com']
+ALLOWED_HOSTS = ['libreria-django-kim.herokuapp.com']
 
 
 # Application definition
