@@ -1,7 +1,6 @@
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.files.storage import default_storage
-from django.db import models
 from rest_framework import serializers
 from .models import PlatoModel, UsuarioModel
 from django.conf import settings
