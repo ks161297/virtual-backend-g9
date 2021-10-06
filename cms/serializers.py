@@ -1,10 +1,11 @@
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.files.storage import default_storage
+from django.db import models
 from rest_framework import serializers
 from .models import PlatoModel, UsuarioModel
 from django.conf import settings
-# != 
+
 
 class RegistroSerializer(serializers.ModelSerializer):
     # *** Forma 1 => Declarar el atributo modificando sus validaciones a nivel de modelos y poniendo nuevas validaciones.
@@ -33,6 +34,7 @@ class RegistroSerializer(serializers.ModelSerializer):
         }
 
 class PlatoSerializer(serializers.ModelSerializer):
+    platoFoto = serializers.CharField(max_length=100)
     class Meta:
         model = PlatoModel
         fields  = '__all__'
@@ -50,3 +52,35 @@ class ImagenSerializer(serializers.Serializer):
         # ! Una vez usado el método read(), elimina información del archivo en la RAM
         ruta = default_storage.save(archivo.name, ContentFile(archivo.read()))
         return settings.MEDIA_URL + ruta
+
+
+# class DetallePedidoSerializer(serializers.Serializer):
+#     cantidad = serializers.IntegerField(required=True)
+#     precio = serializers.DecimalField(max_digits=5, decimal_places=2, min_value=0.01, required=True)
+#     plato = serializers.IntegerField(required=True, min_value=1)
+
+# class PedidoSerializer(serializers.Serializer):
+#     cliente = serializers.IntegerField(required=True)
+#     vendedor = serializers.IntegerField(required=True)
+#     detalle = DetallePedidoSerializer(many=True)
+# class DetallePedidoModelSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = DetallePedidoModel
+#         fields = '__all__'
+#         depth = 1
+# class PedidoModelSerializer(serializers.ModelSerializer):
+#     pedidoDetalle = DetallePedidoModelSerializer(many = True)
+#     class Meta:
+#         model = PedidoModel
+#         fields = '__all__'
+#         depth=1
+
+class DetalleVentaSerializer(serializers.Serializer):
+    cantidad = serializers.IntegerField(required=True)
+    producto_id = serializers.IntegerField(required=True)
+
+
+class VentaSerializer(serializers.Serializer):
+    cliente_id = serializers.IntegerField(min_value=0, required=True)
+    vendedor_id = serializers.IntegerField(min_value=0, required=True)
+    detalle = DetalleVentaSerializer(many=True, required=True)

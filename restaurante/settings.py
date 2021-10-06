@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cms',
+    'facturacion',
     'rest_framework',
 ]
 
@@ -146,9 +147,9 @@ from datetime import timedelta
 
 SIMPLE_JWT = {
     'USER_ID_FIELD':'usuarioId',
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1)
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1)  
 }
 
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = BASE_DIR / 'media' #Indica donde se almancenan los archivos que se subirán al servidor.
 
 MEDIA_URL = '/assets/' # Indica la ruta donde se ubican los archivos subidos al servidor
