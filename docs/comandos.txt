@@ -1,0 +1,5 @@
+Una vez instalado tsc
+    => yarn tsc => buscará el tsconfig.json 
+    => yarn tsc nombre_archivo.ts => compilará el archivo tsc sin importar el tsconfig.json y usará configuraciones por defecto
+    => yarn tsc --init => creará el archivo tsconfig.json en el directorio actual con las opciones recomendadas del compilador de tsc con sus comentarios para que sirve para opcione.
+    
