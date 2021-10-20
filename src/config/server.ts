@@ -1,6 +1,13 @@
 import express, {Express, json} from "express";
+import imagenRouter from "../routes/imagen.routes";
 import usuarioRouter from "../routes/usuario.routes";
 import conexion from './sequelize';
+import {v2} from "cloudinary"
+import productoRouter from "../routes/producto.routes";
+import compraRouter from "../routes/compra.routes";
+import cors from "cors";
+
+
 require('dotenv').config();
 
 export class Server{
@@ -12,14 +19,23 @@ export class Server{
     constructor(){
         this.app = express();
         this.puerto = 8000;
+        this.app.use(cors());
         this.bodyParser();
         this.rutas();
+        v2.config({
+            cloud_name:process.env.CLOUDINARY_NAME,
+            api_key:process.env.CLOUDINARY_KEY,
+            api_secret:process.env.CLOUDINARY_API_SECRET,
+        });
     }
     private bodyParser(){
         this.app.use(json());
     }
     private rutas(){
-        this.app.use(usuarioRouter)
+        this.app.use(usuarioRouter);
+        this.app.use(imagenRouter);
+        this.app.use(productoRouter);
+        this.app.use(compraRouter);
     }
     public start(){
         this.app.listen(this.puerto, async() => {

@@ -24,9 +24,9 @@ Detalles.belongsTo(Compras,{
 })
 
 Usuarios.hasMany(Compras,{
-    foreignKey: {name: "compraId", allowNull: false, field:"usuario_id"},
+    foreignKey: {name: "usuarioId", allowNull: false, field:"usuario_id"},
 });
 
 Compras.belongsTo(Usuarios,{
-    foreignKey: {name: "compraId", allowNull: false, field:"usuario_id"},
+    foreignKey: {name: "usuarioId", allowNull: false, field:"usuario_id"},
 })
