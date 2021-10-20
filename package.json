@@ -7,6 +7,8 @@
   "author": "Marigrace Silva :) <50328933+ks161297@users.noreply.github.com>",
   "license": "MIT",
   "scripts": {
+    "start": "node ./dist/index.js",
+    "build": "tsc -p .",
     "start:dev": "nodemon src/index.ts"
   },
   "devDependencies": {
