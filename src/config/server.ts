@@ -15,10 +15,10 @@ export class Server{
     // readonly => no puede ser modificado su valor afuera del constructor.
 
     private readonly app: Express;
-    private readonly puerto: number;
+    private readonly puerto: unknown;
     constructor(){
         this.app = express();
-        this.puerto = 8000;
+        this.puerto = process.env.PORT || 8000;
         this.app.use(cors());
         this.bodyParser();
         this.rutas();
