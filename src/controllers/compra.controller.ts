@@ -172,7 +172,8 @@ export const crearPreferencia = async(req: Request, res:Response) => {
 
             installments: 6
         },
-        notification_url: "https://bodega-mp-marigrace.herokuapp.com/mp-notificaciones"
+        
+        notification_url: "https://bodega-mp-marigrace.herokuapp.com/mp-notificaciones?source_news=ipn"
     };
         try{
             const rptaMP = await preferences.create(payload);
@@ -191,11 +192,19 @@ export const crearPreferencia = async(req: Request, res:Response) => {
         
     };
 
-export const mpNotificaciones = (req: Request, res: Response)=>{
-    console.log('------- BODY ----------');
+export const mpNotificaciones = async (req: Request, res: Response)=>{
+    console.log("-------BODY----------");
     console.log(req.body);
     console.log("----------- QUERY PARAMS -----------");
     console.log(req.query);
+    if(req.query?.topic && req.query.topic === "merchant_order"){
+        const { id } = req.query;
+        const data = await merchant_orders.findById(String(id));
+        if (data.body.order_status === 'paid'){
+
+        }
+    }
+    
 
     return res.status(200).send("ok");
 };
